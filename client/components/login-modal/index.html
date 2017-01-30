@@ -1,0 +1,117 @@
+<md-dialog aria-label="Create a new user" id="admin-user-create" layout="column" flex-xs="100" flex-sm="75" flex-md="75"
+  flex-lg="66" flex-gt-lg="50" md-whiteframe="24">
+  <div ng-cloak ng-controller="tabsCtrl as tabs">
+    <md-content layout="row" layout-align="end start">
+      <md-tabs md-dynamic-height md-border-bottom flex md-selected="selectedIndex">
+        <md-tab label="Login" ng-click="tabs.onTabSelected('login')">
+          <md-content ng-controller="LoginModalController as vm" class="md-padding" flex>
+            <!-- Login Modal -->
+            <section layout="column" layout-align="start center">
+              <!-- remove in production -->
+              <p class="muted">User account is <code>user@codenx.com</code> / <code>codenx</code><br/> Vendor account is <code>vendor@codenx.com</code>                / <code>codenx</code><br/> Admin account is <code>admin@codenx.com</code> / <code>codenx</code><br/>
+              </p>
+              <!-- /remove in production -->
+
+              <p ng-show="vm.error" class="md-warn">{{vm.error.message}}</p>
+
+              <form name="form" ng-submit="vm.login(form)" autocomplete="off" novalidate>
+                <section class="section" layout="column">
+                  <md-input-container md-is-error="(form.email.$error.required || form.email.$error.email) && form.email.$dirty">
+                    <label>Email</label>
+                    <input name="email" type="email" ng-model="vm.user.email" required md-autofocus/>
+                    <div ng-messages="form.email.$error" ng-if="form.email.$dirty">
+                      <div ng-message="required">Email ID is required</div>
+                      <div ng-message="email">Please enter valid email address.</div>
+                    </div>
+                  </md-input-container>
+
+                  <md-input-container md-is-error="form.password.$error.required && form.password.$dirty">
+                    <label>Password</label>
+                    <input name="password" type="password" ng-model="vm.user.password" required/>
+                    <div ng-messages="form.password.$error">
+                      <div ng-message="required">Password is required</div>
+                      <div class="err">{{ vm.errors.other }}<br/> + <a ng-click="vm.goForgot({ email: vm.user.email})" href="#">Forgot Password</a></div>
+                    </div>
+                  </md-input-container>
+
+                  <div class="form-group has-error">
+                    <p class="help-block" ng-show="form.email.$error.required && form.password.$error.required && vm.submitted">
+                      Please enter your email and password.
+                    </p>
+
+                  </div>
+                </section>
+
+                <submit-button loading="vm.loading" form="form" icon="lock" text="Secure Login"></submit-button>
+
+              </form>
+            </section>
+
+          </md-content>
+        </md-tab>
+        <md-tab label="Signup" ng-click="tabs.onTabSelected('signup')">
+          <md-content ng-controller="SignUpModalController as signup" class="md-padding" flex>
+            <div ng-if="tabs.tab=='signup'">
+              <!-- Signup Modal -->
+              <section layout="column" layout-align="start center">
+                <form name="form" ng-submit="signup.register(form)" autocomplete="off" novalidate>
+
+                  <section class="section" layout="column">
+                    <md-input-container md-is-error="form.name.$error.required && form.name.$dirty">
+                      <label>Name</label>
+                      <input name="name" ng-model="signup.user.name" required md-autofocus/>
+                      <div ng-messages="form.name.$error" ng-if="form.name.$dirty">
+                        <div ng-message="required">Name is required</div>
+                      </div>
+                    </md-input-container>
+
+                    <md-input-container md-is-error="(form.email.$error.email || form.email.$error.required || form.email.$error.sequelize || form.email.$error.remote-unique) && form.email.$dirty">
+                      <label>Email ID</label>
+                      <input type="email" name="email" ng-model="signup.user.email" ng-model-options="{updateOn: 'default blur', debounce: {'default': 500, 'blur': 0}}"
+                        required sequelize-error>
+                      <div ng-messages="form.email.$error" ng-if="form.email.$dirty">
+                        <div ng-message="email">Please enter a valid email address.</div>
+                        <div ng-message="required">Email is required</div>
+                        <div ng-message="sequelize">Email already in use</div>
+                      </div>
+                    </md-input-container>
+
+
+                    <md-input-container md-is-error="(form.password.$error.required ||  form.password.$error.sequelize || form.password.$error.minlength) && form.password.$dirty">
+                      <label>Password</label>
+                      <input name="password" type="password" ng-model="signup.user.password" required sequelize-error ng-minlength="3" />
+                      <div ng-messages="form.password.$error" ng-if="form.password.$dirty">
+                        <div ng-message="required">Password is required</div>
+                        <div ng-message="sequelize">{{ errors.password }}</div>
+                        <div ng-message="minlength">Password must be at least 3 characters.</div>
+                      </div>
+                    </md-input-container>
+
+                    <md-input-container class="last" md-is-error="(form.passwordRepeat.$error.required ||  form.passwordRepeat.$error.minlength || form.passwordRepeat.$error.repeat-input) && form.passwordRepeat.$dirty">
+                      <label>Repeat Password</label>
+                      <input name="passwordRepeat" type="password" ng-model="signup.user.passwordRepeat" required repeat-input="signup.user.password"
+                        ng-minlength="3">
+                      <div ng-messages="form.passwordRepeat.$error" ng-if="form.passwordRepeat.$dirty">
+                        <div ng-message="required">Please repeat the new password</div>
+                        <div ng-message="minlength">Password must be at least 3 characters.</div>
+                        <div ng-message="repeat-input">The passwords do not match</div>
+                      </div>
+                    </md-input-container>
+
+                  </section>
+                  <submit-button loading="signup.loading" form="form" icon="perm_identity" text="Create your account"></submit-button>
+                </form>
+              </section>
+            </div>
+          </md-content>
+        </md-tab>
+        <md-tab></md-tab>
+        <!--This is necessary to maintain the Login and Signup alignment-->
+      </md-tabs>
+      <a aria-label="Cancel Login" ng-click="vm.close()" ng-controller="LoginModalController as vm">
+        <ng-md-icon icon="close" aria-label="Close dialog"></ng-md-icon>
+      </a>
+    </md-content>
+  </div>
+  <oauth-buttons></oauth-buttons>
+</md-dialog>

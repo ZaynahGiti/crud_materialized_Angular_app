@@ -1,0 +1,139 @@
+<md-content flex layout="column" class="content" md-no-flicker md-no-momentum>
+    <section layout="row">
+        <div layout="column" flex>		
+<a ng-click="list.create();">
+	<md-button hide show-gt-xs class="md-fab md-accent md-fab-top-left fab-overlap md-button ng-scope md-blue-theme" aria-label="Create a new  {{list.api}}" ng-if="!list.no.add">
+		<ng-md-icon icon="add"></ng-md-icon>
+	</md-button>
+</a>
+<md-progress-linear md-mode="indeterminate" ng-show="list.loading"></md-progress-linear>
+
+ <!-- Add div For infinite scroll -->
+ <md-content class="scroll products">
+	<md-card infinite-scroll='list.loadMore()' infinite-scroll-disabled='list.loading' infinite-scroll-distance='1' ng-if="list.data.length">
+		<md-toolbar class="md-table-toolbar md-default" aria-hidden="false"	ng-hide="list.selected.length || filter.show || list.data.search">
+      <div class="md-toolbar-tools">
+				<h2 class="md-title">List of {{list.api2 | labelCase}}</h2>
+			  <div flex></div>
+			  <md-button tabindex="0" ng-click="filter.show = true;" class="md-icon-button md-button md-default-theme" ng-show="!list.no.filter"
+				aria-label="Open filter box for {{list.api2}} table">
+			    <ng-md-icon icon="filter_list"></ng-md-icon>
+			  </md-button>
+				<export-data data="list.data" api="list.api" ng-if="!list.no.export"></export-data>
+      </div>
+    </md-toolbar>
+
+		<md-toolbar class="md-table-toolbar md-default"
+			ng-show="filter.show || list.data.search"
+			aria-hidden="false">
+      <div class="md-toolbar-tools">
+				<ng-md-icon icon="search"></ng-md-icon>
+				<md-input-container flex class="mgt30">
+		      <label>Filter {{list.api2}}</label>
+		      <input ng-model="list.data.search" focus-me="filter.show">
+		    </md-input-container>
+				<ng-md-icon icon="close" ng-click="filter.show = false; list.data.search = '';" class="link"></ng-md-icon>
+			</div>
+		</md-toolbar>
+
+<div class="md-table-container">
+	<table md-colresize="md-colresize" class="md-table">
+		<thead>
+			<tr class="md-table-headers-row">
+				<th class="md-table-header"></th>
+				<th ng-repeat="h in list.cols track by $index" class="md-table-header">
+					<a ng-click="reverse=!reverse;list.order(h.field)" ng-if="!list.no.sort && !h.noSort">
+						{{h.heading | labelCase}}
+<ng-md-icon icon="arrow_downward"
+					options='{"rotation": "counterclock"}'
+					ng-show="reverse && h.field === list.sort.predicate"
+					class="s18"></ng-md-icon>
+<ng-md-icon icon="arrow_upwards"
+					ng-show="!reverse && h.field === list.sort.predicate"
+					options='{"rotation": "counterclock"}'></ng-md-icon>
+					</a>
+					<a ng-if="list.no.sort || h.noSort">
+						{{h.heading | labelCase}}
+					</a>
+				</th>
+				<th class="md-table-header">Action</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="crud in filtered = ((list.data | orderBy:list.sort.predicate:list.sort.reverse) | filter:q | filter:list.data.search | limitTo: list.l) track by crud._id" id="{{crud._id}}" class="md-table-content-row" ng-class="{'selected': list.isSelected(crud)}">
+				<td>
+					<md-button class="md-icon-button" aria-label="More" ui-sref="crud.detail({itemId: crud._id, api: list.api, path:list.path, columns: list.cols})" ng-if="!list.no.edit">
+						<md-tooltip>Edit {{list.api | labelCase}} info</md-tooltip>
+						<ng-md-icon icon="edit"></ng-md-icon>
+					</md-button>
+				</td>
+				<td ng-repeat="c in list.cols track by $index" ng-switch="c.dataType">
+					{{c.sort}}
+				<span ng-switch-when="boolean">
+					<md-switch class="md-secondary" ng-model="crud[c.field]" ng-change="list.changeStatus(crud)" aria-label="crud[c.field]"></md-switch>
+				</span>
+				<span ng-switch-when="date">
+					{{crud[c.field] | date:'mediumDate'}}
+				</span>
+				<span ng-switch-when="array">
+					<md-chips ng-model="crud[c.field]" readonly="true"></md-chips>
+				</span>
+				<span ng-switch-when="link">
+					<a ui-sref="{{c.link}}">{{crud[c.field]}}</a>
+				</span>
+				<span ng-switch-when="currency">
+					{{crud[c.field] | currency}}
+				</span>
+				<span ng-switch-when="image">
+					<span ng-if="!crud[c.field]">
+						<list-image string="{{crud.name}}"></list-image></span>
+					<img ng-if="crud[c.field]" ng-src="{{crud[c.field]}}" err-src="/assets/images/material-shop.jpg" />
+				</span>
+				<span ng-switch-default>
+					{{crud[c.field]}}
+				</span>
+			</td>
+			<td>
+				<md-button class="md-icon-button" aria-label="Copy Record" ng-click="list.copy(crud);" ng-if="!list.no.copy">
+				<md-tooltip>Duplicate this {{list.api | labelCase}}</md-tooltip>
+						<ng-md-icon icon="content_copy"></ng-md-icon>
+				</md-button>
+				<md-button class="md-icon-button" aria-label="Delete" ng-click="list.delete(crud);" ng-if="!list.no.delete">
+								<md-tooltip>Delete this {{list.api | labelCase}}</md-tooltip>
+								<ng-md-icon icon="delete"></ng-md-icon>
+				</md-button>
+			</td>
+		</tr>
+	</tbody>
+
+	</table>
+</div>
+ <div class="md-table-pagination">
+		<span>Filtered {{filtered.length}} of {{list.data.length}} {{list.api2}}</span>
+	</div>
+</md-card>
+ </md-content>
+
+<a ng-click="list.create();" ng-if="!list.no.add"> 
+	<md-button hide-gt-xs class="md-fab md-accent md-fab-bottom-left" aria-label="Create a new {{list.header}}" ng-if="!list.no.add">
+		<ng-md-icon icon="add"></ng-md-icon>
+	</md-button>
+</a>
+	<md-card ng-if="list.data.length===0 && !list.loading">
+	  <md-card-content>
+	    <h2>No {{list.api2 | labelCase}} found</h2>
+	    <p class="mgl" hide-xs>
+				There are no {{list.api2 | labelCase}}!
+	      <a ng-click="list.create();" href="">Create one!</a>
+	    </p>
+	    <p hide-gt-xs>
+				There are no {{list.api2 | labelCase}}!
+	      <a ng-click="list.create();" href="">Create one!</a>
+	    </p>
+	  </md-card-content>
+	</md-card>
+</div>
+    </section>
+    </md-content>
+		

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <base href="/">
+    <title>Angular Material CRUD</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <style>
+      .news {
+        height: 60px;
+        margin: 10% auto;
+        overflow: hidden;
+        border-radius: 4px;
+        padding: 3px;
+        display: flex;
+        justify-content: center;
+        -webkit-user-select: none;
+      } 
+
+      .news span {
+        float: left;
+        padding: 6px;
+        position: relative;
+        top: 1%;
+        border-radius: 4px;
+        font: 16px 'Source Sans Pro', Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -webkit-user-select: none;
+        cursor: pointer
+      }
+
+      .news ul {
+        float: left;
+        padding-left: 20px;
+        animation: ticker 10s cubic-bezier(1, 0, .5, 0) infinite;
+        -webkit-user-select: none
+      }
+
+      .news ul li {line-height: 60px; list-style: none }
+
+      .news ul li a {
+        color: #999;
+        text-decoration: none;
+        font: 28px Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -webkit-user-select: none
+      }
+
+      @-webkit-keyframes ticker {
+        0%   {margin-top: 0}
+        25%  {margin-top: -60px}
+        50%  {margin-top: -120px}
+        75%  {margin-top: -180px}
+        100% {margin-top: 0}
+      }
+      @-moz-keyframes ticker {
+        0%   {margin-top: 0}
+        25%  {margin-top: -60px}
+        50%  {margin-top: -120px}
+        75%  {margin-top: -180px}
+        100% {margin-top: 0}
+      }
+      @-ms-keyframes ticker {
+        0%   {margin-top: 0}
+        25%  {margin-top: -60px}
+        50%  {margin-top: -120px}
+        75%  {margin-top: -180px}
+        100% {margin-top: 0}
+      }
+      @keyframes ticker {
+        0%   {margin-top: 0}
+        25%  {margin-top: -60px}
+        50%  {margin-top: -120px}
+        75%  {margin-top: -180px}
+        100% {margin-top: 0}
+      }
+    </style>
+</head>
+<body>
+    <!--[if lt IE 9]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <div ui-view="" ng-cloak class="wrapper">
+      <div class="news">
+        <span></span>
+        <ul>
+          <li><a href="#">Contacting Server...</a></li>
+          <li><a href="#">Loading CSS...</a></li>
+          <li><a href="#">Loading Javascript...</a></li>
+          <li><a href="#">Preparing Application...</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+    <!--<script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-XXXXX-X');
+      ga('send', 'pageview');
+    </script>-->
+</body>
+</html>

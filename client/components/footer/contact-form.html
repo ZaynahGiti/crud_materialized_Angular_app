@@ -1,0 +1,22 @@
+<div layout="row">
+	<md-content flex layout="column">
+		<section layout="column" flex layout-align="center center">
+			<h1>Write to us</h1>
+			<form name="form" ng-submit="$ctrl.send(contact)" novalidate>
+				<section class="section" layout="column">
+					<md-input-container md-is-error="(form.message.$error.required || form.message.$error.message) && form.message.$dirty">
+						<label>Message</label>
+						<textarea name="contact" ng-model="contact.message" required md-autofocus></textarea>
+						<div ng-messages="form.message.$error" ng-if="form.message.$dirty">
+							<div ng-message="required">Message required</div>
+						</div>
+					</md-input-container>
+				</section>
+				<div class="md-dialog-actions" layout="row">
+					<submit-button loading="loading" form="form" icon="send" text="Send Message"></submit-button>
+					<md-button class="btn btn-default btn-lg btn-register" ng-click="$ctrl.ContactForm.cancel()" aria-label="Cancel Send"> Cancel </md-button>
+				</div>
+			</form>
+		</section>
+	</md-content>
+</div>
