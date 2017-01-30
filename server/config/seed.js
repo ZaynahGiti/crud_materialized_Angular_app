@@ -47,7 +47,7 @@ Employee.sync()
         {name: 'TEST5', department: 'IT', experience: '5', birthDate: '1990-08-01.', experience: '5' }
       ])
       .then(() => {
-        console.log('finished populating books');
+        console.log('finished populating employees');
       })
     })
 }
