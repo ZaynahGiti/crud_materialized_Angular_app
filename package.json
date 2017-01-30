@@ -70,7 +70,7 @@
     "autoprefixer": "^6.0.0",
     "babel": {
      "presets": ["es2015"]
-    }
+    },
     "babel-core": "^6.6.5",
     "babel-eslint": "^6.0.4",
     "babel-register": "^6.6.5",
