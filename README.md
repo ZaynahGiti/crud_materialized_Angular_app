@@ -5,6 +5,6 @@
 - `npm i` - installs server dependencies
 - `gulp serve` to start the application at http://localhost:9090
 
-## Build & development
+##
 
 Run `gulp build` for generating the production version files
