@@ -40,11 +40,11 @@ Employee.sync()
       .then(() => {
     Employee.bulkCreate(
       [
-        {name: 'TEST1', department: 'IT', experience: '1', birthDate: '1991-08-06', isbn: '812913554X;978-8129135544' },
-        {name: 'TEST2', department: 'PM', experience: '2', birthDate: '1991-04-18', isbn: '8129135523;978-8129135520' },
-        {name: 'TEST3', department: 'IT', experience: '3', birthDate: '1991-11-12', isbn: '9781407157863' },
-        {name: 'TEST4', department: 'PM', experience: '4', birthDate: '1991-05-26', isbn:'8129135515;978-8129135513' },
-        {name: 'TEST5', department: 'IT', experience: '5', birthDate: '1990-08-01.', isbn: '978-0393338591' }
+        {name: 'TEST1', department: 'IT', experience: '1', birthDate: '1991-08-06', experience: '1' },
+        {name: 'TEST2', department: 'PM', experience: '2', birthDate: '1991-04-18', experience: '2' },
+        {name: 'TEST3', department: 'IT', experience: '3', birthDate: '1991-11-12', experience: '3' },
+        {name: 'TEST4', department: 'PM', experience: '4', birthDate: '1991-05-26', experience:'4' },
+        {name: 'TEST5', department: 'IT', experience: '5', birthDate: '1990-08-01.', experience: '5' }
       ])
       .then(() => {
         console.log('finished populating books');
