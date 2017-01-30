@@ -33,12 +33,12 @@ User.sync()
   }
 }))
 
-Book.sync()
-.then(()=>Book.find().then((data,err) => {
+Employee.sync()
+.then(()=>Employee.find().then((data,err) => {
   if(!data){
-    Book.destroy({ where: {} })
+    Employee.destroy({ where: {} })
       .then(() => {
-    Book.bulkCreate(
+    Employee.bulkCreate(
       [
         {name: 'TEST1', department: 'IT', experience: '1', birthDate: '1991-08-06', isbn: '812913554X;978-8129135544' },
         {name: 'TEST2', department: 'PM', experience: '2', birthDate: '1991-04-18', isbn: '8129135523;978-8129135520' },
